@@ -10,6 +10,10 @@ export default class App extends Component {
     error:null,
     temperature: null,
     name:null,
+    location:null,
+    description:null,
+    icon:null,
+    id:null,
   };
   componentDidMount(){
     navigator.geolocation.getCurrentPosition(
@@ -33,6 +37,10 @@ export default class App extends Component {
           this.setState({
             temperature : json.main.temp,
             name : json.weather[0].main,  // 날씨
+            location : json.name,
+            description: json.weather[0].description,
+            icon: json.weather[0].icon,
+            id: json.weather[0].id,
             isLoaded:true
 
           })
@@ -40,12 +48,20 @@ export default class App extends Component {
     
   }
   render() {
-    const { isLoaded, error, temperature, name } = this.state;
+    const { isLoaded, error, temperature, name, location, description, icon, id } = this.state;
     return (
       <View style={styles.container}>
       <StatusBar hidden={true} />
         {isLoaded ? (
-        <Weather weatherName={name} temp={Math.floor(temperature - 273.15)}/>
+        <Weather 
+        weatherName={name} 
+        temp={Math.floor(temperature - 273.15)}
+        location ={location}
+        description ={description}
+        icon ={icon}
+        id ={id}
+
+        />
         ) : (
         <View style={styles.loading}>
           <Text style={styles.loadingText}>Getting the weather</Text>

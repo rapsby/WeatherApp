@@ -1,7 +1,8 @@
 import React,  {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import {LinearGradient} from "expo";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {Ionicons} from "@expo/vector-icons";
 import PropTypes from "prop-types";
 /*  https://expo.github.io/vector-icons/ */
 
@@ -10,39 +11,45 @@ const weatherCases = {
       colors:["#00C6FB", "#005BEA"],
       title: "Rainging",
       subtitle: "For more info look outside",
-      icon: 'ios-rainy'
+      icon: 'weather-pouring'
    },
    Clear:{
       colors:["#ffe437", "#ff7502"],
       title: "Sunny",
       subtitle: "Get sunshine",
-      icon: 'ios-sunny'
+      icon: 'weather-sunny'
    },
    Thunderstorm:{
       colors:["#00ceb2", "#006bdd"],
       title: "Thunderstorm",
       subtitle: "Hide on your bed",
-      icon: 'ios-thunderstorm'
+      icon: 'weather-lightning'
    },
    Clouds:{
       colors:["#ccc6c1", "#2f3d4d"],
       title: "Clouds",
       subtitle: "What a clouds",
-      icon: 'ios-cloudy'
+      icon: 'weather-cloudy'
    },
    Snow:{
       colors:["#66d1fe", "#adb1e4"],
       title: "Snow",
       subtitle: "Make a snowman",
-      icon: 'ios-snow'
+      icon: 'weather-snowy'
    },
    Drizzle:{
       colors:["#6ce7ff", "#529afd"],
       title: "Drizzle",
       subtitle: "Rain, rain, small rain",
-      icon: 'cloud-drizzle'
+      icon: 'weather-hail'
    },
    Haze:{
+      colors:["#6ce7ff", "#529afd"],
+      title: "Haze",
+      subtitle: "Rain, rain, small rain",
+      icon: 'weather-fog'
+   },
+   default:{
       colors:["#6ce7ff", "#529afd"],
       title: "Haze",
       subtitle: "Rain, rain, small rain",
@@ -50,27 +57,46 @@ const weatherCases = {
    }
 }
 
-function Weather({weatherName, temp}){
+function Weather({weatherName, temp, location, description, icon, id}){
    return(
-      weatherName = "Haze",
+      //weatherName = "Haze",
+      
       <LinearGradient 
-      colors={weatherCases[weatherName].colors}
+      //colors={weatherCases[weatherName].colors}
+      //colors={["#ccc6c1", "#2f3d4d"]}
+      colors={['#'+zfill(((temp*111110).toString(16)),6), '#'+zfill(((temp).toString(16)),6)]}
       style={styles.container}
       >
       <View style={styles.upper}>
-         <MaterialCommunityIcons 
-         color="white" 
-         size={144} 
-         name={weatherCases[weatherName].icon} 
-         />           
+         {/* <MaterialCommunityIcons 
+         //color="white" 
+         //size={144} 
+         //name = {`http://openweathermap.org/img/w/${icon}.png`}
+         //name = {weatherCases[weatherName].icon} 
+         /> */}
+         <Image
+         source={{uri: `http://openweathermap.org/img/w/${icon}.png`}}
+         style={{
+            flex:1,
+            width: 200, 
+            height: 200}}
+         />
          <Text style={styles.temp}>{temp}º</Text>
+         <Text style={styles.temp}>{location}</Text>
       </View>
       <View style={styles.lower}>
-         <Text style={styles.title}>{weatherCases[weatherName].title}</Text>
-         <Text style={styles.subtitle}>{weatherCases[weatherName].subtitle}</Text>
+         <Text style={styles.title}>{weatherName}</Text>
+         <Text style={styles.subtitle}>{description}</Text>
       </View>
       </LinearGradient>
    );
+}
+function zfill(number,length) {
+   var output = number.toString();
+   while(output.length < length) {
+     output = '0' + output;
+   }
+   return output;
 }
 
 Weather.propTypes = {
@@ -88,7 +114,18 @@ const styles = StyleSheet.create({
       flex:1,
       alignItems:"center",
       justifyContent:"center",
-      backgroundColor: "transparent"
+      backgroundColor: "transparent",
+      marginTop: 50
+   },
+   img: {
+      flex:1,
+      alignItems:"center",
+      justifyContent:"center",
+      backgroundColor: "transparent",
+      color: "white",
+      marginTop: 50,
+      width: 400, 
+      height: 400
    },
    temp: {
       fontSize: 48,

@@ -58,13 +58,16 @@ const weatherCases = {
 }
 
 function Weather({weatherName, temp, location, description, icon, id}){
+   console.log(temp2RGB(temp))
    return(
       //weatherName = "Haze",
-      
+      //temp = -10,
       <LinearGradient 
       //colors={weatherCases[weatherName].colors}
       //colors={["#ccc6c1", "#2f3d4d"]}
-      colors={['#'+zfill(((temp*111110).toString(16)),6), '#'+zfill(((temp).toString(16)),6)]}
+      //colors={['#'+zfill(((temp*111110).toString(16))), '#'+zfill(((temp).toString(16)))]}
+      //const rgb = {temp2RGB(temp)}
+      colors={temp2RGB(temp)}
       style={styles.container}
       >
       <View style={styles.upper}>
@@ -91,9 +94,37 @@ function Weather({weatherName, temp, location, description, icon, id}){
       </LinearGradient>
    );
 }
-function zfill(number,length) {
-   var output = number.toString();
-   while(output.length < length) {
+temp2RGB = (temp) => {
+   var rgb1, rgb2;
+   if(temp > 17 )
+   {
+      rgb1 = 
+      (255).toString(16)+
+      zfill((255-Math.floor((temp/60)*255)))+
+      zfill((255-Math.floor((temp/60)*255)));
+      rgb2 = 
+      (255).toString(16)+
+      zfill((255-Math.floor(((temp/60)*255)/3)))+
+      zfill((255-Math.floor(((temp/60)*255)/3)));
+   }
+   else
+   {
+      temp += 50; // minimum -50
+      rgb1 = 
+      zfill((Math.floor(((temp/67)*255)/3)))+
+      zfill((Math.floor(((temp/67)*255)/3)))+
+      (255).toString(16);
+      rgb2 =
+      zfill((Math.floor((temp/67)*255)))+
+      zfill((Math.floor((temp/67)*255)))+
+      (255).toString(16);
+
+   }
+   return ["#"+rgb2, "#"+rgb1];
+}
+zfill = (number) => {
+   var output = number.toString(16);
+   while(output.length < 2) {
      output = '0' + output;
    }
    return output;

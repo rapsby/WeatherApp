@@ -5,7 +5,7 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {Ionicons} from "@expo/vector-icons";
 import PropTypes from "prop-types";
 /*  https://expo.github.io/vector-icons/ */
-
+/*
 const weatherCases = {
    Rain:{
       colors:["#00C6FB", "#005BEA"],
@@ -56,33 +56,18 @@ const weatherCases = {
       icon: 'weather-fog'
    }
 }
-
+*/
 function Weather({weatherName, temp, location, description, icon, id}){
    console.log(temp2RGB(temp))
    return(
-      //weatherName = "Haze",
-      //temp = -10,
       <LinearGradient 
-      //colors={weatherCases[weatherName].colors}
-      //colors={["#ccc6c1", "#2f3d4d"]}
-      //colors={['#'+zfill(((temp*111110).toString(16))), '#'+zfill(((temp).toString(16)))]}
-      //const rgb = {temp2RGB(temp)}
       colors={temp2RGB(temp)}
       style={styles.container}
       >
       <View style={styles.upper}>
-         {/* <MaterialCommunityIcons 
-         //color="white" 
-         //size={144} 
-         //name = {`http://openweathermap.org/img/w/${icon}.png`}
-         //name = {weatherCases[weatherName].icon} 
-         /> */}
          <Image
          source={{uri: `http://openweathermap.org/img/w/${icon}.png`}}
-         style={{
-            flex:1,
-            width: 200, 
-            height: 200}}
+         style={styles.img}
          />
          <Text style={styles.temp}>{temp}º</Text>
          <Text style={styles.temp}>{location}</Text>
@@ -153,10 +138,9 @@ const styles = StyleSheet.create({
       alignItems:"center",
       justifyContent:"center",
       backgroundColor: "transparent",
-      color: "white",
       marginTop: 50,
-      width: 400, 
-      height: 400
+      width: 200, 
+      height: 200
    },
    temp: {
       fontSize: 48,
